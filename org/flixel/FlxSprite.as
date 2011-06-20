@@ -71,7 +71,8 @@ package org.flixel
 		/**
 		 * The actual Flash <code>BitmapData</code> object representing the current display state of the sprite.
 		 */
-		public var framePixels:BitmapData;
+		public var framePixels:Bitmap;
+		
 		/**
 		 * Set this flag to true to force the sprite to update during the draw() call.
 		 * NOTE: Rarely if ever necessary, most sprite operations will flip this flag automatically.
@@ -399,11 +400,11 @@ package org.flixel
 			_flashRect2.width = _pixels.width;
 			_flashRect2.height = _pixels.height;
 			if((framePixels == null) || (framePixels.width != width) || (framePixels.height != height))
-				framePixels = new BitmapData(width,height);
+				framePixels = new Bitmap(new BitmapData(width,height));
 			origin.make(frameWidth*0.5,frameHeight*0.5);
-			framePixels.copyPixels(_pixels,_flashRect,_flashPointZero);
+			framePixels.bitmapData.copyPixels(_pixels,_flashRect,_flashPointZero);
 			frames = (_flashRect2.width / _flashRect.width) * (_flashRect2.height / _flashRect.height);
-			if(_colorTransform != null) framePixels.colorTransform(_flashRect,_colorTransform);
+			if(_colorTransform != null) framePixels.bitmapData.colorTransform(_flashRect,_colorTransform);
 			_curIndex = 0;
 		}
 		
@@ -450,7 +451,7 @@ package org.flixel
 				{	//Simple render
 					_flashPoint.x = _point.x;
 					_flashPoint.y = _point.y;
-					camera.buffer.copyPixels(framePixels,_flashRect,_flashPoint,null,null,true);
+					camera.buffer.copyPixels(framePixels.bitmapData,_flashRect,_flashPoint,null,null,true);
 				}
 				else
 				{	//Advanced render
@@ -479,16 +480,16 @@ package org.flixel
 		public function stamp(Brush:FlxSprite,X:int=0,Y:int=0):void
 		{
 			Brush.drawFrame();
-			var bitmapData:BitmapData = Brush.framePixels;
+			var bitmap:Bitmap = Brush.framePixels;
 			
 			//Simple draw
 			if(((Brush.angle == 0) || (Brush._bakedRotation > 0)) && (Brush.scale.x == 1) && (Brush.scale.y == 1) && (Brush.blend == null))
 			{
 				_flashPoint.x = X;
 				_flashPoint.y = Y;
-				_flashRect2.width = bitmapData.width;
-				_flashRect2.height = bitmapData.height;
-				_pixels.copyPixels(bitmapData,_flashRect2,_flashPoint,null,null,true);
+				_flashRect2.width = bitmap.width;
+				_flashRect2.height = bitmap.height;
+				_pixels.copyPixels(bitmap.bitmapData,_flashRect2,_flashPoint,null,null,true);
 				_flashRect2.width = _pixels.width;
 				_flashRect2.height = _pixels.height;
 				calcFrame();
@@ -502,7 +503,7 @@ package org.flixel
 			if(Brush.angle != 0)
 				_matrix.rotate(Brush.angle * 0.017453293);
 			_matrix.translate(X+Brush.origin.x,Y+Brush.origin.y);
-			_pixels.draw(bitmapData,_matrix,null,Brush.blend,null,Brush.antialiasing);
+			_pixels.draw(bitmap,_matrix,null,Brush.blend,null,Brush.antialiasing);
 			calcFrame();
 		}
 		
@@ -542,7 +543,7 @@ package org.flixel
 		public function fill(Color:uint):void
 		{
 			_pixels.fillRect(_flashRect2,Color);
-			if(_pixels != framePixels)
+			if(_pixels != framePixels.bitmapData)
 				dirty = true;
 		}
 		
@@ -882,7 +883,7 @@ package org.flixel
 			_point.y = _point.y - offset.y;
 			_flashPoint.x = (Point.x - Camera.scroll.x) - _point.x;
 			_flashPoint.y = (Point.y - Camera.scroll.y) - _point.y;
-			return framePixels.hitTest(_flashPointZero,Mask,_flashPoint);
+			return framePixels.bitmapData.hitTest(_flashPointZero,Mask,_flashPoint);
 		}
 		
 		/**
@@ -908,10 +909,10 @@ package org.flixel
 			//Update display bitmap
 			_flashRect.x = indexX;
 			_flashRect.y = indexY;
-			framePixels.copyPixels(_pixels,_flashRect,_flashPointZero);
+			framePixels.bitmapData.copyPixels(_pixels,_flashRect,_flashPointZero);
 			_flashRect.x = _flashRect.y = 0;
 			if(_colorTransform != null)
-				framePixels.colorTransform(_flashRect,_colorTransform);
+				framePixels.bitmapData.colorTransform(_flashRect,_colorTransform);
 			if(_callback != null)
 				_callback(((_curAnim != null)?(_curAnim.name):null),_curFrame,_curIndex);
 			dirty = false;
