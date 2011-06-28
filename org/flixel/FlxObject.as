@@ -1,3 +1,4 @@
+
 package org.flixel
 {
 	import flash.display.Graphics;
@@ -391,12 +392,14 @@ package org.flixel
 			delta = velocity.x*FlxG.elapsed;
 			velocity.x += velocityDelta;
 			x += delta;
+			x = FlxU.abs(x);
 			
 			velocityDelta = (FlxU.computeVelocity(velocity.y,acceleration.y,drag.y,maxVelocity.y) - velocity.y)/2;
 			velocity.y += velocityDelta;
 			delta = velocity.y*FlxG.elapsed;
 			velocity.y += velocityDelta;
 			y += delta;
+			y = FlxU.abs(y);
 		}
 		
 		/**
