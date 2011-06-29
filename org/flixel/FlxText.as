@@ -282,8 +282,8 @@ package org.flixel
 			
 			//Finally, update the visible pixels
 			if((framePixels == null) || (framePixels.width != _pixels.width) || (framePixels.height != _pixels.height))
-				framePixels = new BitmapData(_pixels.width,_pixels.height,true,0);
-			framePixels.copyPixels(_pixels,_flashRect,_flashPointZero);
+				framePixels.bitmapData = new BitmapData(_pixels.width,_pixels.height,true,0);
+			framePixels.bitmapData.copyPixels(_pixels,_flashRect,_flashPointZero);
 		}
 		
 		/**
