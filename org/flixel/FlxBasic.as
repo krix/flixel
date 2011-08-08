@@ -131,6 +131,7 @@ package org.flixel
 		{
 			alive = false;
 			exists = false;
+			active = false;
 		}
 		
 		/**
@@ -141,6 +142,7 @@ package org.flixel
 		{
 			alive = true;
 			exists = true;
+			active = true;
 		}
 		
 		/**
