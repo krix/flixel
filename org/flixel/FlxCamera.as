@@ -405,8 +405,8 @@ package org.flixel
 			style = Style;
 			target = Target;
 			var helper:Number;
-			var w:Number;
-			var h:Number;
+			var w:Number = 0;
+			var h:Number = 0;
 			
 			switch(Style)
 			{
@@ -424,8 +424,10 @@ package org.flixel
 					deadzone = new FlxRect((width-helper)/2,(height-helper)/2,helper,helper);
 					break;
 				case STYLE_LOCKON:
-					w = target.width;
-					h = target.height;
+					if (target != null) {	
+						w = target.width;
+						h = target.height;
+					}
 					deadzone = new FlxRect((width-w)/2,(height-h)/2 - h * 0.25,w,h);
 					break;
 				case STYLE_SCREEN_BY_SCREEN:
