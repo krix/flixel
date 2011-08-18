@@ -666,7 +666,11 @@ package org.flixel
 					angularAcceleration = 0;
 					angle = pathAngle;
 				}
-			}			
+			}
+			else {
+				velocity.x = 0;
+				velocity.y = 0;
+			}
 		}
 		
 		/**
