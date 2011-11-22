@@ -305,8 +305,17 @@ package org.flixel
 				else
 				{
 					var edge:Number;
-					var targetX:Number = FlxU.ceil(target.x + ((target.x > 0)?0.0000001:-0.0000001));
-					var targetY:Number = FlxU.ceil(target.y + ((target.y > 0)?0.0000001:-0.0000001));
+					var targetX:Number;
+					var targetY:Number;
+					
+					if (FlxSprite(target).simpleRender) {
+						targetX = FlxU.ceil(target.x + ((target.x > 0)?0.0000001:-0.0000001));
+						targetY = FlxU.ceil(target.y + ((target.y > 0)?0.0000001:-0.0000001));
+					}
+					else{
+						targetX = target.x + ((target.x > 0)?0.0000001:-0.0000001);
+						targetY = target.y + ((target.y > 0)?0.0000001: -0.0000001);
+					}
 					
 					if (style == STYLE_SCREEN_BY_SCREEN) {
 						if(targetX > scroll.x + width){
